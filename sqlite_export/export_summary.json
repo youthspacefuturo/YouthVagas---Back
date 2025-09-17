@@ -1,0 +1,12 @@
+{
+  "export_date": "2025-09-15T11:53:49.510961",
+  "source_database": "c:\\Users\\INTEL I3\\Documents\\YouthSpace -   Vagas\\YouthSpace -   Vagas - MySQL\\Vagas -Back\\instance\\app.db",
+  "tables_exported": {
+    "students": 2,
+    "companies": 2,
+    "jobs": 9,
+    "applications": 5,
+    "saved_jobs": 0
+  },
+  "total_records": 18
+}

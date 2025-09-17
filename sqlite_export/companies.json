@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Tech Solutions LTDA",
+    "email": "contato@techsolutions.com",
+    "password": "scrypt:32768:8:1$h24fmnYhZV71UUxW$634cb81a65aed3407373b7b8aca15cc026909a058a4f62b475e213aed0de5960cd4168f2c4f5bf387151295e19cb19a8dc9fc1f84f34326d48de7964d00a7174",
+    "phone": "(11) 99999-8888",
+    "cnpj": "12.345.678/0001-90",
+    "website": "https://www.techsolutions.com.br",
+    "sector": "Tecnologia da Informação",
+    "company_size": "100-500 funcionários",
+    "about": "Empresa especializada em soluções de software sob medida para pequenas e médias empresas.",
+    "is_active": 1,
+    "created_at": "2025-09-05T12:40:51.649380",
+    "fantasy_name": null,
+    "city": null
+  },
+  {
+    "id": 2,
+    "name": "FC Solutron",
+    "email": "fcsolutron@gmail.com",
+    "password": "scrypt:32768:8:1$xLRVos02FoIk3Cfq$02401421663f7ed8555e4bd6e92818249065af60464273dc22a11128804ab97701a5955ccf56d6f00304af11a4e7fb8ee66f6d4c1ddea5d61141988fdda01d2c",
+    "phone": "85992759989",
+    "cnpj": "02828446000134",
+    "website": "http://www.fcsolutron.com",
+    "sector": "Industrial Têxtil",
+    "company_size": "10",
+    "about": "pppppppppppppppppppppppppppppppppp",
+    "is_active": 1,
+    "created_at": "2025-09-07T20:04:29.651370",
+    "fantasy_name": null,
+    "city": "Fortaleza, CE"
+  }
+]

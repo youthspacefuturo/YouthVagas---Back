@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "João Guilherme",
+    "email": "joao.guilherme@example.com",
+    "password": "scrypt:32768:8:1$OxVf9kk9eEJifGCi$d4e2442144f50145c602e459442ba9e9649e5fa96ca5c4a6237ca5114258de369aa2bfb7ff60d1bbe3870b7bfdcca303f5ebb1e5dbdc6519051c6578635611f0",
+    "phone": "11912345678",
+    "github_url": "https://github.com/joaoguilherme",
+    "resume_url": "https://example.com/resume.pdf",
+    "cpf": "12345678901",
+    "is_active": 1,
+    "created_at": "2025-09-05T12:35:46.854389",
+    "city": null,
+    "skills": null,
+    "about": null
+  },
+  {
+    "id": 2,
+    "name": "JOAO GUILHERME OLIVEIRA VON LINDE",
+    "email": "joaovonlinde@gmail.com",
+    "password": "scrypt:32768:8:1$4gr3yz8nwLeqjKon$786ebc3da1bb7452323fba8b1a67c09f6772289e44d8cf328dc2e7aa77e18b08d3e02daa2b8e3fcce80cef4b42956bd78c3d1c552544732637364e0f56e7c5b0",
+    "phone": "85992759989",
+    "github_url": "https://github.com/joaovonlinde",
+    "resume_url": "https://drive.google.com/drive/u/0/shared-with-me",
+    "cpf": "11011400383",
+    "is_active": 1,
+    "created_at": "2025-09-08T13:33:29.421901",
+    "city": "Fortaleza",
+    "skills": "React, Node",
+    "about": "massa"
+  }
+]

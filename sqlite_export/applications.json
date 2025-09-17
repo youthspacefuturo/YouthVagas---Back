@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "job_id": 1,
+    "student_id": 2,
+    "status": "rejected",
+    "cover_letter": "Eu sou o joão",
+    "created_at": "2025-09-09T21:41:36.176733"
+  },
+  {
+    "id": 2,
+    "job_id": 1,
+    "student_id": 2,
+    "status": "interview",
+    "cover_letter": "Conte",
+    "created_at": "2025-09-09T21:42:50.267573"
+  },
+  {
+    "id": 3,
+    "job_id": 2,
+    "student_id": 2,
+    "status": "pending",
+    "cover_letter": "Descrição de Apresentação\n\nOlá, me chamo João Von Linde e sou um Desenvolvedor Full-Stack e Cientista de Dados apaixonado por criar soluções inovadoras, escaláveis e centradas no usuário.\n\nTenho experiência sólida em Node.js/Express para construção de backends performáticos e seguros, além de atuar no frontend com React, TypeScript e Tailwind CSS. No campo de dados, trabalho com Python, Pandas, NumPy e Scikit-Learn, aplicando técnicas de Machine Learning e IA Generativa para transformar dados em insights acionáveis.\n\nSou defensor de Clean Architecture e metodologias ágeis, buscando sempre entregar soluções inteligentes, bem estruturadas e de fácil manutenção.\n\nAcredito que minha combinação de habilidades técnicas e visão analítica pode agregar valor ao time, contribuindo tanto para o desenvolvimento de produtos quanto para a análise estratégica de dados.",
+    "created_at": "2025-09-09T23:23:44.236404"
+  },
+  {
+    "id": 4,
+    "job_id": 3,
+    "student_id": 2,
+    "status": "pending",
+    "cover_letter": "Eu sou o João e tenho várias funções onde atuo",
+    "created_at": "2025-09-11T02:05:52.134989"
+  },
+  {
+    "id": 5,
+    "job_id": 9,
+    "student_id": 2,
+    "status": "pending",
+    "cover_letter": "Eu sou o joão",
+    "created_at": "2025-09-11T17:36:11.750622"
+  }
+]
