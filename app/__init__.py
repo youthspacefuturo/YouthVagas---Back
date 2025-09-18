@@ -196,9 +196,12 @@ def create_app():
     # Rota raiz
     @app.route('/')
     def index():
+        # Determinar o tipo de banco sendo usado
+        db_info = "MySQL (Production)" if use_mysql else str(db_path) if 'db_path' in locals() else "MySQL/SQLite"
+        
         return {
             "message": "Youth Space API está funcionando!",
-            "database_path": str(db_path),
+            "database_info": db_info,
             "auth_endpoints": [
                 "GET /api/auth/ - Informações sobre autenticação",
                 "POST /api/auth/register/student - Cadastrar estudante",
