@@ -53,8 +53,6 @@ coverage.xml
 *.sublime-workspace
 
 # Environment variables
-.env
-.env.*
 
 # Mac / Linux / Windows
 .DS_Store

@@ -52,12 +52,19 @@ def create_app():
         print(f"💾 Using SQLite: {db_path}")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'youth-space')
-    app.config['DEBUG'] = os.environ.get('FLASK_DEBUG', 'True') == 'True'
+    
+    # Configuração de ambiente
+    flask_env = os.environ.get('FLASK_ENV', 'development')
+    is_production = flask_env == 'production'
+    
+    app.config['DEBUG'] = not is_production
+    app.config['SQLALCHEMY_ECHO'] = not is_production  # Desabilita logs SQL em produção
     
     # Enable debug mode for development
     if app.config['DEBUG']:
         print("DEBUG MODE ENABLED - JWT Cookie debugging active")
-    app.config['SQLALCHEMY_ECHO'] = True
+    else:
+        print("PRODUCTION MODE - Debug disabled")
 
     # Configurações de sessão (mantidas, mas podem ser opcionais com JWT)
     app.config['SESSION_TYPE'] = 'filesystem'
@@ -74,11 +81,22 @@ def create_app():
     # Refresh token médio: 7 dias
     app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=7)
     
-    # Configurações de cookies seguros para desenvolvimento
-    app.config['JWT_COOKIE_SECURE'] = False  # False para localhost HTTP
-    app.config['JWT_COOKIE_HTTPONLY'] = True
-    app.config['JWT_COOKIE_SAMESITE'] = 'Lax'
-    app.config['JWT_COOKIE_DOMAIN'] = None  # Permitir localhost
+    # Configurações de cookies seguros baseadas no ambiente
+    if is_production:
+        # Configurações seguras para produção
+        app.config['JWT_COOKIE_SECURE'] = True  # HTTPS obrigatório
+        app.config['JWT_COOKIE_HTTPONLY'] = True
+        app.config['JWT_COOKIE_SAMESITE'] = 'Strict'
+        app.config['JWT_COOKIE_DOMAIN'] = os.environ.get('COOKIE_DOMAIN')  # Domínio específico
+        app.config['JWT_COOKIE_CSRF_PROTECT'] = True  # CSRF habilitado
+    else:
+        # Configurações para desenvolvimento
+        app.config['JWT_COOKIE_SECURE'] = False  # False para localhost HTTP
+        app.config['JWT_COOKIE_HTTPONLY'] = True
+        app.config['JWT_COOKIE_SAMESITE'] = 'Lax'
+        app.config['JWT_COOKIE_DOMAIN'] = None  # Permitir localhost
+        app.config['JWT_COOKIE_CSRF_PROTECT'] = False  # CSRF desabilitado
+    
     app.config['JWT_COOKIE_PATH'] = '/'
     # Fazer com que o cookie tenha Max-Age/Expires (não somente cookie de sessão)
     app.config['JWT_SESSION_COOKIE'] = False
@@ -86,22 +104,35 @@ def create_app():
     # Nomes dos cookies
     app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
     app.config['JWT_REFRESH_COOKIE_NAME'] = 'refresh_token'
-    
-    # CSRF Protection (desabilitado para desenvolvimento, habilitar em produção)
-    app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 
     # Inicializar extensões
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
-    # Enhanced CORS configuration for development
-    CORS(app, 
-         supports_credentials=True, 
-         origins=["http://localhost:5173", "http://127.0.0.1:5173"],
-         allow_headers=["Content-Type", "Authorization", "X-Requested-With", "Cookie"],
-         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-         expose_headers=["Set-Cookie"],
-         allow_credentials=True)
+    # Configuração CORS baseada no ambiente
+    if is_production:
+        # CORS para produção - domínios específicos
+        allowed_origins = os.environ.get('ALLOWED_ORIGINS', '').split(',')
+        allowed_origins = [origin.strip() for origin in allowed_origins if origin.strip()]
+        
+        CORS(app, 
+             supports_credentials=True, 
+             origins=allowed_origins,
+             allow_headers=["Content-Type", "Authorization", "X-Requested-With", "Cookie", "X-CSRF-TOKEN"],
+             methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+             expose_headers=["Set-Cookie"],
+             allow_credentials=True)
+        print(f"🌐 CORS configurado para produção com origens: {allowed_origins}")
+    else:
+        # CORS para desenvolvimento - localhost
+        CORS(app, 
+             supports_credentials=True, 
+             origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+             allow_headers=["Content-Type", "Authorization", "X-Requested-With", "Cookie"],
+             methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+             expose_headers=["Set-Cookie"],
+             allow_credentials=True)
+        print("🌐 CORS configurado para desenvolvimento (localhost)")
 
     # Importar modelos
     with app.app_context():
