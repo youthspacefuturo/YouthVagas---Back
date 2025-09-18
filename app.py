@@ -1,24 +1,25 @@
-from app import create_app
+from flask import Flask
+from flask_cors import CORS
 import os
 
-if __name__ == '__main__':
-    app = create_app()
+def create_app():
+    app = Flask(__name__)
     
-    # Configuração para produção ou desenvolvimento
-    environment = os.environ.get('FLASK_ENV', 'development')
-    
-    if environment == 'production':
-        # Configuração para produção no VPS Hostinger
-        app.run(
-            host='0.0.0.0',  # Aceita conexões de qualquer IP
-            port=int(os.environ.get('PORT', 5000)),  # Porta configurável via env
-            debug=False,  # Debug desabilitado em produção
-            threaded=True  # Suporte a múltiplas threads
+    # Configuração CORS para produção
+    if os.environ.get('FLASK_ENV') == 'production':
+        # Permitir apenas IPs/domínios específicos
+        CORS(app, 
+             origins=[
+                 "http://31.97.17.104",
+                 "https://31.97.17.104",
+                 "http://localhost:3000",  # Para desenvolvimento
+             ],
+             supports_credentials=True,
+             allow_headers=['Content-Type', 'Authorization', 'X-Requested-With'],
+             methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
         )
     else:
-        # Configuração para desenvolvimento local
-        app.run(
-            host='127.0.0.1',  # Apenas localhost
-            port=5000,
-            debug=True
-        )
+        # Desenvolvimento - mais permissivo
+        CORS(app, supports_credentials=True)
+    
+    return app
