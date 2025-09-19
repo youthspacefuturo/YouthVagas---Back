@@ -1,0 +1,56 @@
+services:
+  backend:
+    build: .
+    container_name: youthspace-backend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5000:5000"  # Bind apenas no localhost para segurança
+    environment:
+      # Configurações de produção
+      FLASK_ENV: ${FLASK_ENV:-production}
+      FLASK_DEBUG: ${FLASK_DEBUG:-False}
+      HOST: 0.0.0.0
+      PORT: 5000
+      
+      # Banco de dados
+      DATABASE_URL: ${DATABASE_URL}
+      
+      # Segurança
+      SECRET_KEY: ${SECRET_KEY}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      
+      # CORS para produção
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-https://vagas.youthspacecursos.com}
+      
+      # JWT para HTTPS
+      JWT_COOKIE_SECURE: ${JWT_COOKIE_SECURE:-true}
+      JWT_COOKIE_HTTPONLY: ${JWT_COOKIE_HTTPONLY:-true}
+      JWT_COOKIE_SAMESITE: ${JWT_COOKIE_SAMESITE:-Lax}
+      
+      # Email
+      MAIL_SERVER: ${MAIL_SERVER:-}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USE_TLS: ${MAIL_USE_TLS:-True}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_APP_PASSWORD: ${MAIL_APP_PASSWORD:-}
+      MAIL_DEFAULT_SENDER: ${MAIL_DEFAULT_SENDER:-}
+      
+      # OAuth
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      
+      # Twilio
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:-}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN:-}
+      TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER:-}
+    
+    volumes:
+      - ./logs:/app/logs
+      - ./instance:/app/instance
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

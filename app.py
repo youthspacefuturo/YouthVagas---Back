@@ -12,7 +12,7 @@ def create_app():
              origins=[
                  "http://31.97.17.104",
                  "https://31.97.17.104",
-                 "http://localhost:3000",  # Para desenvolvimento
+                 "http://localhost:5000",  # Para desenvolvimento
              ],
              supports_credentials=True,
              allow_headers=['Content-Type', 'Authorization', 'X-Requested-With'],
