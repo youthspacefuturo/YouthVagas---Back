@@ -1,25 +1,23 @@
-from flask import Flask
-from flask_cors import CORS
 import os
+from app import create_app
 
-def create_app():
-    app = Flask(__name__)
+if __name__ == '__main__':
+    # Configurar para desenvolvimento
+    os.environ['FLASK_ENV'] = 'development'
+    os.environ['FLASK_DEBUG'] = '1'
     
-    # Configuração CORS para produção
-    if os.environ.get('FLASK_ENV') == 'production':
-        # Permitir apenas IPs/domínios específicos
-        CORS(app, 
-             origins=[
-                 "http://31.97.17.104",
-                 "https://31.97.17.104",
-                 "http://localhost:5000",  # Para desenvolvimento
-             ],
-             supports_credentials=True,
-             allow_headers=['Content-Type', 'Authorization', 'X-Requested-With'],
-             methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-        )
-    else:
-        # Desenvolvimento - mais permissivo
-        CORS(app, supports_credentials=True)
+    # Criar a aplicação usando a factory function do app/__init__.py
+    app = create_app()
     
-    return app
+    print("🚀 Iniciando YouthSpace API em modo desenvolvimento...")
+    print("📍 API disponível em: http://localhost:5000")
+    print("🌐 Frontend deve apontar para: http://localhost:5000/api")
+    print("🔧 Modo DEBUG ativado")
+    
+    # Executar em modo desenvolvimento
+    app.run(
+        host='0.0.0.0',  # Aceitar conexões de qualquer IP
+        port=5000,       # Porta padrão do Flask
+        debug=True,      # Modo debug ativado
+        threaded=True    # Suporte a múltiplas threads
+    )

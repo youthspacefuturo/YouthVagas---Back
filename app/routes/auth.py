@@ -261,18 +261,14 @@ def login_company():
         return jsonify({'error': 'Erro interno do servidor'}), 500
 
 @auth_bp.route('/logout', methods=['POST'])
-@student_or_company_required
-def logout(**kwargs):
+#@student_or_company_required
+def logout():
     """Logout seguro do usuário"""
     try:
         response = make_response(jsonify({'message': 'Logout realizado com sucesso'}))
         
         # Remover todos os cookies JWT
         unset_jwt_cookies(response)
-        
-        if current_app.debug:
-            current_user = kwargs.get('current_user')
-            print(f"DEBUG: Logout realizado para usuário {current_user.get('email')}")
         
         return response, 200
         
@@ -361,16 +357,7 @@ def refresh():
         }))
         
         set_access_cookies(response, new_access_token)
-        
-        # Cookie adicional para debug
-        response.set_cookie(
-            'access_token_set', 
-            'true', 
-            max_age=900,  # 15 minutos
-            httponly=False,  # Para debug no frontend
-            secure=False,
-            samesite='Lax'
-        )
+
         
         if current_app.debug:
             print(f"✅ DEBUG: Token renovado com sucesso para {user.email} ({user_type})")
@@ -384,16 +371,6 @@ def refresh():
             print(f"❌ DEBUG: Traceback: {traceback.format_exc()}")
         current_app.logger.error(f"Erro ao renovar token: {str(e)}")
         return jsonify({'error': 'Token de refresh inválido ou expirado'}), 401
-
-@auth_bp.route('/test-cookie', methods=['GET'])
-def test_cookie():
-    """Endpoint para testar se cookies estão sendo enviados"""
-    cookies = dict(request.cookies)
-    return jsonify({
-        'message': 'Test endpoint',
-        'cookies_received': cookies,
-        'access_token_present': 'access_token' in cookies
-    }), 200
 
 @auth_bp.route('/me', methods=['GET'])
 @student_or_company_required
