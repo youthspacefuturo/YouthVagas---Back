@@ -95,7 +95,7 @@ def create_app():
         app.config['JWT_COOKIE_HTTPONLY'] = True
         app.config['JWT_COOKIE_SAMESITE'] = 'Lax'
         app.config['JWT_COOKIE_DOMAIN'] = None  # Permitir localhost
-        app.config['JWT_COOKIE_CSRF_PROTECT'] = False  # CSRF desabilitado
+        app.config['JWT_COOKIE_CSRF_PROTECT'] = True  # CSRF desabilitado
     
     app.config['JWT_COOKIE_PATH'] = '/'
     # Fazer com que o cookie tenha Max-Age/Expires (não somente cookie de sessão)

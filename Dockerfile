@@ -1,9 +1,7 @@
 FROM python:3.12-slim
 
 # Configurações básicas do Python
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
+
 
 # Instalar dependências do sistema
 RUN apt-get update && apt-get install -y \
@@ -15,6 +13,18 @@ RUN apt-get update && apt-get install -y \
 
 # Diretório de trabalho
 WORKDIR /app
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+ENV DATABASE_URL=mysql://u155031960_adminYouth:YouthV4g4s!!yV@srv1526.hstgr.io/u155031960_YouthVagas
+ENV FLASK_ENV=production
+ENV FLASK_DEBUG=False
+
+# Database Configuration (MySQL Produção)
+ENV USE_MYSQL=true
+
+# Database Performance Configuration (produção)
 
 # Copiar e instalar dependências Python
 COPY requirements.txt .
@@ -31,7 +41,7 @@ EXPOSE 5000
 
 # Health check simples
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:5000/api/health || exit 1
+    CMD curl -f http://localhost:5000/api/auth || exit 1
 
 # Comando padrão
 CMD ["python", "run.py"]

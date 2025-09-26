@@ -4,13 +4,11 @@ services:
     container_name: youthspace-backend
     restart: unless-stopped
     ports:
-      - "127.0.0.1:5000:5000"  # Bind apenas no localhost para segurança
+      - "5000:5000"  # Bind apenas no localhost para segurança
     environment:
       # Configurações de produção
       FLASK_ENV: ${FLASK_ENV:-production}
       FLASK_DEBUG: ${FLASK_DEBUG:-False}
-      HOST: 0.0.0.0
-      PORT: 5000
       
       # Banco de dados
       DATABASE_URL: ${DATABASE_URL}
