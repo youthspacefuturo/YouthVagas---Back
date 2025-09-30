@@ -4,6 +4,13 @@ from flask_migrate import Migrate
 app = create_app()
 migrate = Migrate(app, db)
 
-if __name__ == '__main__':
-    app.run(debug=False, port=5000)
+if __name__ == "__main__":
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        ssl_context=(
+            "/etc/letsencrypt/live/vagas.youthspacecursos.com/fullchain.pem",
+            "/etc/letsencrypt/live/vagas.youthspacecursos.com/privkey.pem"
+        )
+    )
     
