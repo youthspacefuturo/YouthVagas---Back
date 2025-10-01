@@ -117,7 +117,7 @@ def create_app():
         
         CORS(app, 
              supports_credentials=True, 
-             origins=allowed_origins,
+             origins=["http://31.97.17.104:8080", "http://127.0.0.1:8080"],
              allow_headers=["Content-Type", "Authorization", "X-Requested-With", "Cookie", "X-CSRF-TOKEN"],
              methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
              expose_headers=["Set-Cookie"],
@@ -127,7 +127,7 @@ def create_app():
         # CORS para desenvolvimento - localhost
         CORS(app, 
              supports_credentials=True, 
-             origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+             origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://31.97.17.104:8080", "http://127.0.0.1:8080"],
              allow_headers=["Content-Type", "Authorization", "X-Requested-With", "Cookie", "X-CSRF-TOKEN"],
              methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
              expose_headers=["Set-Cookie"],
