@@ -146,6 +146,8 @@ class AuthService:
             else:
                 raise ValueError('Email ou telefone é obrigatório')
             
+            print(f"DEBUG: Iniciando processo de reset para {email or phone} ({user_type})")
+            
             # Invalidar códigos anteriores não utilizados
             if method == 'email':
                 old_codes = ResetCode.query.filter_by(
@@ -162,6 +164,7 @@ class AuthService:
                     is_used=False
                 ).all()
             
+            print(f"DEBUG: Encontrados {len(old_codes)} códigos antigos para invalidar")
             for old_code in old_codes:
                 old_code.is_used = True
             
@@ -174,29 +177,54 @@ class AuthService:
                 expires_in_minutes=15
             )
             
+            print(f"DEBUG: Código gerado: {reset_code.code}")
             db.session.add(reset_code)
-            db.session.commit()
+            
+            try:
+                db.session.commit()
+                print(f"DEBUG: Código salvo no banco com sucesso")
+            except Exception as e:
+                print(f"ERRO: Falha ao salvar no banco: {str(e)}")
+                db.session.rollback()
+                raise ValueError(f'Erro ao salvar código no banco: {str(e)}')
             
             # Enviar código
             if method == 'email':
+                print(f"DEBUG: Tentando enviar email para {email}")
                 try:
                     success = email_service.send_reset_password_email(email, user_name, reset_code.code)
-                    if not success:
+                    if success:
+                        print(f"SUCCESS: Email enviado com sucesso para {email}")
+                    else:
                         print(f"AVISO: Falha ao enviar email para {email}")
                         print(f"CÓDIGO DE RESET (para debug): {reset_code.code}")
+                        # Não forçar sucesso - deixar o usuário saber que email falhou
+                        # mas código está disponível no console
                 except Exception as e:
                     print(f"ERRO EMAIL: {str(e)}")
                     print(f"CÓDIGO DE RESET (para debug): {reset_code.code}")
-                    success = True  # Forçar sucesso para não bloquear o fluxo
+                    success = False  # Email falhou, mas código está no console
             else:
                 formatted_phone = NotificationService.format_phone_number(phone)
                 success = NotificationService.send_reset_code_sms(formatted_phone, reset_code.code)
                 if not success:
                     raise ValueError(f'Erro ao enviar código por {method}')
             
+            # Preparar resposta baseada no sucesso do envio
+            if method == 'email':
+                if success:
+                    message = 'Código enviado para seu email'
+                else:
+                    message = 'Código gerado com sucesso. Verifique o console do servidor para o código (problema temporário com email)'
+            else:
+                if success:
+                    message = 'Código enviado para seu telefone'
+                else:
+                    message = 'Erro ao enviar código por SMS'
+            
             return {
-                'message': f'Código enviado para seu {"email" if method == "email" else "telefone"}',
-                'code_sent': True,
+                'message': message,
+                'code_sent': success,
                 'expires_at': reset_code.expires_at.isoformat()
             }
             

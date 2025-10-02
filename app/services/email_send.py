@@ -464,8 +464,14 @@ class EmailService:
         Enviar email de redefinição de senha
         """
         try:
+            print(f"DEBUG EMAIL: Iniciando envio para {to_email}")
+            print(f"DEBUG EMAIL: SMTP Server: {self.smtp_server}:{self.smtp_port}")
+            print(f"DEBUG EMAIL: Username: {self.email_user}")
+            print(f"DEBUG EMAIL: Password configurado: {'Sim' if self.email_password else 'Não'}")
+            
             if not self.email_user or not self.email_password:
                 logger.error("Credenciais de email não configuradas")
+                print("ERRO EMAIL: Credenciais não configuradas")
                 return False
             
             # Criar mensagem
@@ -503,16 +509,24 @@ YouthSpace - Conectando jovens ao futuro profissional
             msg.attach(part2)
             
             # Enviar email
+            print(f"DEBUG EMAIL: Conectando ao servidor SMTP...")
             with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
+                print(f"DEBUG EMAIL: Iniciando TLS...")
                 server.starttls()
+                print(f"DEBUG EMAIL: Fazendo login...")
                 server.login(self.email_user, self.email_password)
+                print(f"DEBUG EMAIL: Enviando mensagem...")
                 server.send_message(msg)
+                print(f"DEBUG EMAIL: Mensagem enviada com sucesso!")
             
             logger.info(f"Email de redefinição de senha enviado para {to_email}")
+            print(f"SUCCESS EMAIL: Email enviado com sucesso para {to_email}")
             return True
             
         except Exception as e:
             logger.error(f"Erro ao enviar email de redefinição: {str(e)}")
+            print(f"ERRO EMAIL DETALHADO: {str(e)}")
+            print(f"TIPO DO ERRO: {type(e).__name__}")
             return False
     
     def send_welcome_email(self, to_email: str, user_name: str, user_type: str) -> bool:
