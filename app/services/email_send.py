@@ -22,9 +22,14 @@ class EmailService:
         
         self.smtp_server = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
         self.smtp_port = int(os.getenv('MAIL_PORT', '587'))
-        self.email_user = os.getenv('MAIL_USERNAME')
-        self.email_password = os.getenv('MAIL_APP_PASSWORD')
+        
+        # TEMPORÁRIO: Forçar credenciais se não carregadas do .env
+        self.email_user = os.getenv('MAIL_USERNAME') or 'youthspacefuturo@gmail.com'
+        self.email_password = os.getenv('MAIL_APP_PASSWORD') or 'ttxeexsmnptnudvr'
         self.from_name = os.getenv('FROM_NAME', 'YouthSpace')
+        
+        print(f"🔧 FINAL - Username: {self.email_user}")
+        print(f"🔧 FINAL - Password configurado: {'Sim' if self.email_password else 'Não'}")
         
     def _get_reset_password_template(self, user_name: str, verification_code: str) -> str:
         """
