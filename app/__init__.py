@@ -84,10 +84,10 @@ def create_app():
     # Configurações de cookies seguros baseadas no ambiente
     if is_production:
         # Configurações seguras para produção
-        app.config['JWT_COOKIE_SECURE'] = True  # HTTPS obrigatório
+        app.config['JWT_COOKIE_SECURE'] = False  # HTTPS obrigatório
         app.config['JWT_COOKIE_HTTPONLY'] = True
-        app.config['JWT_COOKIE_SAMESITE'] = 'Strict'
-        app.config['JWT_COOKIE_DOMAIN'] = os.environ.get('COOKIE_DOMAIN')  # Domínio específico
+        app.config['JWT_COOKIE_SAMESITE'] = 'Lax'
+        app.config['JWT_COOKIE_DOMAIN'] = None  # Domínio específico
         app.config['JWT_COOKIE_CSRF_PROTECT'] = True  # CSRF habilitado
     else:
         # Configurações para desenvolvimento
