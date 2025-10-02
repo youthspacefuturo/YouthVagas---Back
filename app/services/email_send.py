@@ -11,6 +11,15 @@ logger = logging.getLogger(__name__)
 
 class EmailService:
     def __init__(self):
+        # Debug das variáveis de ambiente
+        print("=== DEBUG VARIÁVEIS DE EMAIL ===")
+        print(f"MAIL_SERVER: {os.getenv('MAIL_SERVER')}")
+        print(f"MAIL_PORT: {os.getenv('MAIL_PORT')}")
+        print(f"MAIL_USERNAME: {os.getenv('MAIL_USERNAME')}")
+        print(f"MAIL_APP_PASSWORD: {'***' if os.getenv('MAIL_APP_PASSWORD') else 'None'}")
+        print(f"FROM_NAME: {os.getenv('FROM_NAME')}")
+        print("================================")
+        
         self.smtp_server = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
         self.smtp_port = int(os.getenv('MAIL_PORT', '587'))
         self.email_user = os.getenv('MAIL_USERNAME')

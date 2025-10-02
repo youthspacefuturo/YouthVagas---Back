@@ -9,12 +9,22 @@ from datetime import timedelta
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
-load_dotenv()
+env_path = Path(__file__).parent.parent / '.env'
+print(f"DEBUG: Carregando .env de: {env_path}")
+print(f"DEBUG: Arquivo .env existe: {env_path.exists()}")
+load_dotenv(env_path)
+
+# Debug das variáveis carregadas
+print("=== DEBUG VARIÁVEIS CARREGADAS ===")
+print(f"FLASK_ENV: {os.getenv('FLASK_ENV')}")
+print(f"DATABASE_URL: {os.getenv('DATABASE_URL')[:50] if os.getenv('DATABASE_URL') else 'None'}...")
+print(f"MAIL_USERNAME: {os.getenv('MAIL_USERNAME')}")
+print(f"MAIL_APP_PASSWORD: {'***' if os.getenv('MAIL_APP_PASSWORD') else 'None'}")
+print("==================================")
 
 db = SQLAlchemy()
 migrate = Migrate()
 jwt = JWTManager()
-
 def create_app():
     app = Flask(__name__)
 
