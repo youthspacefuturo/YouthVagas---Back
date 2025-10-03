@@ -97,14 +97,14 @@ def create_app():
         app.config['JWT_COOKIE_SECURE'] = False  # HTTPS obrigatório
         app.config['JWT_COOKIE_HTTPONLY'] = True
         app.config['JWT_COOKIE_SAMESITE'] = 'Lax'
-        app.config['JWT_COOKIE_DOMAIN'] = 'vagas.youthspacecursos.com'  # Domínio específico
+        app.config['JWT_COOKIE_DOMAIN'] = None  # Domínio específico
         app.config['JWT_COOKIE_CSRF_PROTECT'] = True  # CSRF habilitado
     else:
         # Configurações para desenvolvimento
         app.config['JWT_COOKIE_SECURE'] = False  # False para localhost HTTP
         app.config['JWT_COOKIE_HTTPONLY'] = True
         app.config['JWT_COOKIE_SAMESITE'] = 'Lax'
-        app.config['JWT_COOKIE_DOMAIN'] = 'vagas.youthspacecursos.com'  # Permitir localhost
+        app.config['JWT_COOKIE_DOMAIN'] = None  # Permitir localhost
         app.config['JWT_COOKIE_CSRF_PROTECT'] = True  # CSRF desabilitado
     
     app.config['JWT_COOKIE_PATH'] = '/'
