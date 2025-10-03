@@ -127,7 +127,7 @@ def create_app():
         
         CORS(app, 
              supports_credentials=True, 
-             origins=["http://31.97.17.104:8080", "http://127.0.0.1:8080"],
+             origins=["http://31.97.17.104:8080", "http://127.0.0.1:8080", "http://vagas.youthspacecursos.com", "http://vagas.youthspacecursos.com:8080"],
              allow_headers=["Content-Type", "Authorization", "X-Requested-With", "Cookie", "X-CSRF-TOKEN"],
              methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
              expose_headers=["Set-Cookie"],
