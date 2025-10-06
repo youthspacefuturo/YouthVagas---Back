@@ -94,11 +94,13 @@ def create_app():
     # Configurações de cookies seguros baseadas no ambiente
     if is_production:
         # Configurações seguras para produção
-        app.config['JWT_COOKIE_SECURE'] = False  # HTTPS obrigatório
-        app.config['JWT_COOKIE_HTTPONLY'] = True
-        app.config['JWT_COOKIE_SAMESITE'] = 'Lax'
-        app.config['JWT_COOKIE_DOMAIN'] = None  # Domínio específico
+        # Em produção, configurar o domínio base para compartilhar cookies
+        # IMPORTANTE: usar .youthspacecursos.com (com ponto) permite subdomínios
+        app.config['JWT_COOKIE_DOMAIN'] = '.youthspacecursos.com'
+        app.config['JWT_COOKIE_SECURE'] = False  # True quando tiver HTTPS
+        app.config['JWT_COOKIE_SAMESITE'] = 'Lax'  # Lax permite entre subdomínios
         app.config['JWT_COOKIE_CSRF_PROTECT'] = True  # CSRF habilitado
+        print("🍪 JWT Cookies: Domain=.youthspacecursos.com, SameSite=Lax")
     else:
         # Configurações para desenvolvimento
         app.config['JWT_COOKIE_SECURE'] = False  # False para localhost HTTP
