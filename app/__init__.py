@@ -93,12 +93,19 @@ def create_app():
     
     # Configurações de cookies seguros baseadas no ambiente
     if is_production:
-        # Configurações seguras para produção
-        app.config['JWT_COOKIE_SECURE'] = False  # HTTPS obrigatório
+        app.config['JWT_COOKIE_SECURE'] = False  # True quando tiver HTTPS
         app.config['JWT_COOKIE_HTTPONLY'] = True
         app.config['JWT_COOKIE_SAMESITE'] = 'Lax'
         app.config['JWT_COOKIE_DOMAIN'] = '.youthspacecursos.com'
-        app.config['JWT_COOKIE_CSRF_PROTECT'] = True  # CSRF habilitado
+        app.config['JWT_COOKIE_CSRF_PROTECT'] = True  # HABILITAR
+        # CSRF será enviado como cookie separado
+        app.config['JWT_CSRF_IN_COOKIES'] = True
+        app.config['JWT_CSRF_CHECK_FORM'] = False
+        app.config['JWT_ACCESS_CSRF_HEADER_NAME'] = 'X-CSRF-TOKEN'
+        app.config['JWT_REFRESH_CSRF_HEADER_NAME'] = 'X-CSRF-TOKEN'
+        # Nomes dos cookies CSRF
+        app.config['JWT_ACCESS_CSRF_COOKIE_NAME'] = 'csrf_access_token'
+        app.config['JWT_REFRESH_CSRF_COOKIE_NAME'] = 'csrf_refresh_token'
     else:
         # Configurações para desenvolvimento
         app.config['JWT_COOKIE_SECURE'] = False  # False para localhost HTTP
