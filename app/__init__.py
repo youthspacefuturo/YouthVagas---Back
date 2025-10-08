@@ -93,19 +93,11 @@ def create_app():
     
     # Configurações de cookies seguros baseadas no ambiente
     if is_production:
-        app.config['JWT_COOKIE_SECURE'] = False  # True quando tiver HTTPS
+        app.config['JWT_COOKIE_SECURE'] = True  # True quando tiver HTTPS
         app.config['JWT_COOKIE_HTTPONLY'] = True
         app.config['JWT_COOKIE_SAMESITE'] = 'Lax'
         app.config['JWT_COOKIE_DOMAIN'] = 'vagas.youthspacecursos.com'
         app.config['JWT_COOKIE_CSRF_PROTECT'] = True  # HABILITAR
-        # CSRF será enviado como cookie separado
-        app.config['JWT_CSRF_IN_COOKIES'] = True
-        app.config['JWT_CSRF_CHECK_FORM'] = False
-        app.config['JWT_ACCESS_CSRF_HEADER_NAME'] = 'X-CSRF-TOKEN'
-        app.config['JWT_REFRESH_CSRF_HEADER_NAME'] = 'X-CSRF-TOKEN'
-        # Nomes dos cookies CSRF
-        app.config['JWT_ACCESS_CSRF_COOKIE_NAME'] = 'csrf_access_token'
-        app.config['JWT_REFRESH_CSRF_COOKIE_NAME'] = 'csrf_refresh_token'
     else:
         # Configurações para desenvolvimento
         app.config['JWT_COOKIE_SECURE'] = False  # False para localhost HTTP
@@ -134,7 +126,7 @@ def create_app():
         
         CORS(app, 
              supports_credentials=True, 
-             origins=["http://31.97.17.104:8080", "http://127.0.0.1:8080", "http://vagas.youthspacecursos.com", "http://vagas.youthspacecursos.com:8080"],
+             origins=["https://vagas.youthspacecursos.com", "http://31.97.17.104:8080", "http://127.0.0.1:8080", "http://vagas.youthspacecursos.com", "http://vagas.youthspacecursos.com:8080"],
              allow_headers=["Content-Type", "Authorization", "X-Requested-With", "Cookie", "X-CSRF-TOKEN"],
              methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
              expose_headers=["Set-Cookie"],
