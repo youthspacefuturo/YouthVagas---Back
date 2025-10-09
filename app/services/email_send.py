@@ -457,7 +457,7 @@ class EmailService:
             </div>
             
             <div style="text-align: center;">
-                <a href="#" class="cta-button">Acessar Plataforma</a>
+                <a href="https://vagas.youthspacecursos.com" class="cta-button">Acessar Plataforma</a>
             </div>
         </div>
         
